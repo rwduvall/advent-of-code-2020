@@ -67,48 +67,122 @@ export const changeSeats = (currentOccupiedSeats: boolean[][]) => { //: boolean[
 
             // get surrounding seats, set to unfefined if it doesn't exist
             try {
-                seatAboveBefore = rowAbove[indexOfSeat - 1]
+                let rowNumber = 0
+                let seatNumber = 0
+                do {
+                    rowNumber += 1
+                    seatNumber += 1
+                    let rowAboveAndBeyod = currentOccupiedSeats[indexOfRow - rowNumber]
+                    seatAboveBefore = rowAboveAndBeyod[indexOfSeat - seatNumber]
+
+                } while (seatAboveBefore == null && rowNumber <= indexOfRow) //(seatNumber < 3)//
+
+                // seatAboveBefore = rowAbove[indexOfSeat - 1]
+
             } catch {
                 seatAboveBefore = undefined
             }
             try {
-                seatAbove = rowAbove[indexOfSeat]
+                let rowNumber = 0
+                do {
+                    rowNumber += 1
+                    let rowAboveAndBeyod = currentOccupiedSeats[indexOfRow - rowNumber]
+                    seatAbove = rowAboveAndBeyod[indexOfSeat]
+
+                } while (seatAbove == null && rowNumber <= indexOfRow)
+
+
+                // seatAbove = rowAbove[indexOfSeat]
 
             } catch {
                 seatAbove = undefined
             }
             try {
-                seatAboveAfter = rowAbove[indexOfSeat + 1]
+                let rowNumber = 0
+                let seatNumber = 0
+                do {
+                    rowNumber += 1
+                    seatNumber += 1
+                    let rowAboveAndBeyod = currentOccupiedSeats[indexOfRow - rowNumber]
+                    seatAboveAfter = rowAboveAndBeyod[indexOfSeat + seatNumber]
+
+                } while (seatAboveAfter == null && rowNumber <= indexOfRow)
+
+                // seatAboveAfter = rowAbove[indexOfSeat + 1]
 
             } catch {
                 seatAboveAfter = undefined
             }
             try {
-                seatBefore = row[indexOfSeat - 1]
+
+                let seatNumber = 0
+                do {
+                    seatNumber += 1
+                    seatBefore = row[indexOfSeat - seatNumber]
+
+                } while (seatBefore == null && seatNumber <= row.length - seatNumber)
+
+
+                // seatBefore = row[indexOfSeat - 1]
 
             } catch {
                 seatBefore = undefined
             }
             try {
-                seatAfter = row[indexOfSeat + 1]
+                let seatNumber = 0
+                do {
+                    seatNumber += 1
+                    seatAfter = row[indexOfSeat + seatNumber]
+
+                } while (seatAfter == null && seatNumber <= row.length - seatNumber)
+
+                // seatAfter = row[indexOfSeat + 1]
 
             } catch {
                 seatAfter = undefined
             }
             try {
-                seatBelowBefore = rowBelow[indexOfSeat - 1]
+                let rowNumber = 0
+                let seatNumber = 0
+                do {
+                    rowNumber += 1
+                    seatNumber += 1
+                    let rowBelowAndBeyod = currentOccupiedSeats[indexOfRow + rowNumber]
+                    seatBelowBefore = rowBelowAndBeyod[indexOfSeat - seatNumber]
+
+                } while (seatBelowBefore == null && rowNumber < currentOccupiedSeats.length)
+
+                // seatBelowBefore = rowBelow[indexOfSeat - 1]
 
             } catch {
                 seatBelowBefore = undefined
             }
             try {
-                seatBelow = rowBelow[indexOfSeat]
+                let rowNumber = 0
+                do {
+                    rowNumber += 1
+                    let rowAboveAndBeyod = currentOccupiedSeats[indexOfRow + rowNumber]
+                    seatBelow = rowAboveAndBeyod[indexOfSeat]
+
+                } while (seatBelow == null && rowNumber < currentOccupiedSeats.length)
+
+                // seatBelow = rowBelow[indexOfSeat]
 
             } catch {
                 seatBelow = undefined
             }
             try {
-                seatBelowAfter = rowBelow[indexOfSeat + 1]
+                let rowNumber = 0
+                let seatNumber = 0
+                do {
+                    rowNumber += 1
+                    seatNumber += 1
+                    let rowBelowAndBeyod = currentOccupiedSeats[indexOfRow + rowNumber]
+                    seatBelowAfter = rowBelowAndBeyod[indexOfSeat + seatNumber]
+
+                } while (seatBelowAfter == null && rowNumber <= currentOccupiedSeats.length)
+
+                // seatBelowAfter = rowBelow[indexOfSeat + 1]
             } catch {
                 seatBelowAfter = undefined
             }
@@ -117,13 +191,16 @@ export const changeSeats = (currentOccupiedSeats: boolean[][]) => { //: boolean[
 
 
             const numberOfOccupiedsurroundingSeats = countOfOccupiedSeats(surroundingSeats, true)
-            // console.log({ indexOfRow, indexOfSeat, 'seat': seat, 'surroundingSeatsArray': { seatAboveBefore, seatAbove, seatAboveAfter, seatBefore, seatAfter, seatBelowBefore, seatBelow, seatBelowAfter }, 'numOccSeats': numberOfOccupiedsurroundingSeats })
+            // if (indexOfRow == 0) {
+            //     console.log({ indexOfRow, indexOfSeat, 'seat': seat, 'surroundingSeatsArray': { seatAboveBefore, seatAbove, seatAboveAfter, seatBefore, seatAfter, seatBelowBefore, seatBelow, seatBelowAfter }, 'numOccSeats': numberOfOccupiedsurroundingSeats })
+            // }
+
 
             // if seat is empty (L/false) and no surrounding seats are occupied it becomes occupied(#/true)
             const rule1 = (seat == false && numberOfOccupiedsurroundingSeats == 0)
 
             // if seat is occupied (#/true) and 4 or more surrounding seats are occupied it becomes empty(L/false)
-            const rule2 = (seat == true && numberOfOccupiedsurroundingSeats >= 4)
+            const rule2 = (seat == true && numberOfOccupiedsurroundingSeats >= 5)
 
             // if floor (null) stays floor
             const floor = (seat == null)
@@ -171,7 +248,10 @@ export const loopUntilNoChange = (input: string) => {
     do {
         const afterChange = changeSeats(outCome)
         outCome = afterChange
-        finalAnswer = afterChange
+        if (outCome === afterChange) {
+            finalAnswer = afterChange
+        }
+        // finalAnswer = afterChange
         numberOfIterations += 1
     } while (numberOfIterations < 500)//|| (typeof finalAnswer !== 'undefined'))
 
@@ -180,6 +260,5 @@ export const loopUntilNoChange = (input: string) => {
         numberOfOccupiedSeats += countOfOccupiedSeats(element, true)
     });
 
-
-    return { numberOfOccupiedSeats, numberOfIterations }
+    return { finalAnswer, numberOfOccupiedSeats, numberOfIterations, 'seats': parse(finalAnswer) }
 }
