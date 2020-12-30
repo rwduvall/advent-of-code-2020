@@ -14,43 +14,26 @@ export const moveShip = (input: string): ShipPosition => {
     const actions = parse(input)
     actions.forEach(action => {
         const resultOfAction = performAction(action, wpPosition, shipPosition)
-        // console.log({ 'shipPosition': resultOfAction.sP, resultOfAction, action })
         shipPosition = resultOfAction.sP
         wpPosition = resultOfAction.waypointPosition
-        // console.log({ shipPosition, wpPosition })
     })
     return shipPosition
 }
 
 const performAction = (action: Action, waypointPosition: ShipPosition, shipPosition: ShipPosition): { sP: ShipPosition, waypointPosition: ShipPosition } => {
-    if (waypointPosition == undefined) {
-        // console.log({ action, shipPosition, waypointPosition })
-    }
-    // console.log(waypointPosition)
     const nAction = { east: waypointPosition.east, north: waypointPosition.north + action.value }
     const sAction = { east: waypointPosition.east, north: waypointPosition.north - action.value }
     const eAction = { east: waypointPosition.east + action.value, north: waypointPosition.north }
     const wAction = { east: waypointPosition.east - action.value, north: waypointPosition.north }
     if (action.direction == 'F') {
-
         const amountToMoveE = waypointPosition.east * action.value
         const amountToMoveN = waypointPosition.north * action.value
-
-        // console.log({
-        //     shipPosition, waypointPosition, amountToMoveE,
-        //     amountToMoveN, "SPeast": shipPosition.east, action,
-        //     'newShipPE': shipPosition.east + amountToMoveE,
-        //     'newShipPN': shipPosition.north + amountToMoveN
-        // })
-        // this shouldn't always add (i think)
 
         return { sP: { east: shipPosition.east + amountToMoveE, north: shipPosition.north + amountToMoveN }, waypointPosition }
     }
 
     if (action.direction == 'N') {
-        // console.log({ waypointPosition, shipPosition, action })
         const wP: ShipPosition = nAction
-        // console.log({ wP })
         return { sP: shipPosition, waypointPosition: wP }
     }
     if (action.direction == 'S') {
@@ -67,15 +50,40 @@ const performAction = (action: Action, waypointPosition: ShipPosition, shipPosit
     }
 
     if (action.direction == 'L') {
-        const newDirection = moveWPLeft(waypointPosition, action.value)
-        return { sP: shipPosition, waypointPosition: newDirection }
+        let turningLeft = action.value
+        let waypoint = waypointPosition
+        while (turningLeft > 0) {
+            waypoint = rotateLeft(waypoint)
+            turningLeft -= 90
+        }
+
+        return { sP: shipPosition, waypointPosition: waypoint }
     }
     if (action.direction == 'R') {
-        const newDirection = moveWpRight(waypointPosition, action.value)
-        return { sP: shipPosition, waypointPosition: newDirection }
+        let turningRight = action.value
+        let waypoint = waypointPosition
+        while (turningRight > 0) {
+            waypoint = rotateRight(waypoint)
+            turningRight -= 90
+        }
+
+        return { sP: shipPosition, waypointPosition: waypoint }
     }
 }
 
+const rotateLeft = (waypoint) => {
+    const newWaypoint = { ...waypoint }
+    newWaypoint.north = waypoint.east
+    newWaypoint.east = -waypoint.north
+    return newWaypoint
+}
+
+const rotateRight = (waypoint) => {
+    const newWaypoint = { ...waypoint }
+    newWaypoint.east = waypoint.north
+    newWaypoint.north = -waypoint.east
+    return newWaypoint
+}
 
 type Action = {
     direction: string,
@@ -87,18 +95,7 @@ type ShipPosition = {
     north: number
 }
 
-// come back to this later, maybe
-
-// enum Directions {
-//     North = 'N',
-//     South = 'S',
-//     East = 'E',
-//     West = 'W',
-//     Left = 'L',
-//     Right = 'R',
-//     Forward = 'F',
-// }
-
+// something is wrong with these even with all the tests I have
 export const moveWpRight = (wpStartPosition: ShipPosition, degreesToTurn: number): ShipPosition => {
     if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 90) {
         return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
@@ -190,7 +187,7 @@ export const moveWPLeft = (wpStartPosition: ShipPosition, degreesToTurn: number)
 }
 
 
-
+// part 1 functions
 export const turnRight = (startingDirection: string, degreesToTurn: number): string => {
     const directions = ['N', 'E', 'S', 'W']
     const indexOfStartDirec = directions.indexOf(startingDirection)
@@ -209,7 +206,6 @@ export const turnRight = (startingDirection: string, degreesToTurn: number): str
     }
 
     return directions[indexOfResult]
-
 }
 
 export const turnLeft = (startingDirection: string, degreesToTurn: number): string => {
@@ -230,5 +226,4 @@ export const turnLeft = (startingDirection: string, degreesToTurn: number): stri
     }
 
     return directions[indexOfResult]
-
 }

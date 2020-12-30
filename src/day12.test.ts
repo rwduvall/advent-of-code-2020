@@ -29,13 +29,34 @@ describe('day 12', () => {
     })
     describe('part 2', () => {
         test('', () => {
-            console.log(moveShip(day12Example))
-            console.log(moveShip(day12Input))
-            // const finalPosition = moveShip(day12Example)
-            // console.log(finalPosition)
-            // expect(finalPosition).toEqual({ east: 214, north: -72 })
+            expect(moveShip(day12Example)).toEqual({ east: 214, north: -72 })
+            expect(moveShip(day12Input)).toEqual({ east: 46871, north: 54989 })
 
         })
+        test('F', () => {
+            const input = `F10
+R180
+F2`
+            // ship: 100, 10
+            // wp: -10, -1
+            // ship: 80, 8 move -20, -2
+            expect(moveShip(input)).toEqual({ east: 80, north: 8 })
+
+            const input2 = `F10
+R180
+F2
+N10
+F5`
+
+            // ship: 100, 10
+            // wp: -10, -1
+            // ship: 80, 8 move -20, -2
+            // wp: -10, 9
+            //ship: 30, 53 move -50, 45
+            expect(moveShip(input2)).toEqual({ east: 30, north: 53 })
+        })
+
+        // these missed a bug some where
         test('R90', () => {
             expect(moveWpRight({ east: 10, north: 4 }, 90)).toEqual({ east: 4, north: -10 })
             expect(moveWpRight({ east: 4, north: -10 }, 90)).toEqual({ east: -10, north: -4 })
@@ -72,30 +93,6 @@ describe('day 12', () => {
             expect(moveWPLeft({ east: 4, north: -10 }, 270)).toEqual({ east: -10, north: -4 })
             expect(moveWPLeft({ east: -10, north: -4 }, 270)).toEqual({ east: -4, north: 10 })
             expect(moveWPLeft({ east: -4, north: 10 }, 270)).toEqual({ east: 10, north: 4 })
-        })
-
-        test('F', () => {
-            const input = `F10
-R180
-F2`
-            // ship: 100, 10
-            // wp: -10, -1
-            // ship: 80, 8 move -20, -2
-            // expect(moveShip(input)).toEqual({ east: 80, north: 8 })
-
-            const input2 = `F10
-R180
-F2
-N10
-F5`
-
-            // ship: 100, 10
-            // wp: -10, -1
-            // ship: 80, 8 move -20, -2
-            // wp: -10, 9
-            //ship: 30, 53 move -50, 45
-
-            expect(moveShip(input2)).toEqual({ east: 30, north: 53 })
         })
     })
 })
