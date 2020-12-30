@@ -7,19 +7,17 @@ const parse = (input: string) => {
     })
 }
 
-export const findbus = (buses: string, depatureTime: number) => {
+export const findBus = (buses: string, depatureTime: number) => {
     const busArrray = parse(buses)
     const busesGreaterThanDepature = busArrray.map(bus => {
         return { 'busNumber': bus, 'dTime': mutlipleUntil(bus, depatureTime) }
-    })
-    const busAndWaitTime = busesGreaterThanDepature.map(bus => {
+    }).map(bus => {
         return { 'busNumber': bus.busNumber, 'waitTime': bus.dTime - depatureTime }
-    })
-    const busWithLowestWaitTime = busAndWaitTime.reduce(function (prev, curr) {
+    }).reduce(function (prev, curr) {
         return prev.waitTime < curr.waitTime ? prev : curr;
     })
-    
-    return busWithLowestWaitTime.busNumber * busWithLowestWaitTime.waitTime
+
+    return busesGreaterThanDepature.busNumber * busesGreaterThanDepature.waitTime
 }
 
 export const mutlipleUntil = (item: number, greatThanOrEqual: number) => {
