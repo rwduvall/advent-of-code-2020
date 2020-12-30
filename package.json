@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^26.0.16",
+    "@types/lodash": "^4.14.166",
     "@types/node": "^14.14.10",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
@@ -22,5 +23,8 @@
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.0",
     "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
   }
 }

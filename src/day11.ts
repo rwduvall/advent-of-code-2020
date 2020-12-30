@@ -1,3 +1,5 @@
+import * as _ from 'lodash'
+
 export const parse = (input: boolean[][]) => {
     let result: string = ''
     input.forEach(row => {
@@ -241,19 +243,24 @@ export const countOfOccupiedSeats = function (arr: boolean[], val: boolean): num
 }
 
 export const loopUntilNoChange = (input: string) => {
-    const initailConvesrtion = seatStatusesConveredToBooleans(input)
-    let outCome = initailConvesrtion
-    let finalAnswer
-    let numberOfIterations = 0
+    const initailConversion = seatStatusesConveredToBooleans(input)
+    let outCome: boolean[][] = initailConversion
+    let finalAnswer: boolean[][]
+    let numberOfIterations: number = 0
+
     do {
         const afterChange = changeSeats(outCome)
-        outCome = afterChange
-        if (outCome === afterChange) {
+
+        // check that the out come of changing seats not actually chagnes
+        // if its the same then I have my final answer and I can end the loop. Otherwise I have to keep going
+        console.log(_.isEqual(outCome, afterChange))
+        if (_.isEqual(outCome, afterChange)) {
             finalAnswer = afterChange
         }
-        // finalAnswer = afterChange
+
+        outCome = afterChange
         numberOfIterations += 1
-    } while (numberOfIterations < 500)//|| (typeof finalAnswer !== 'undefined'))
+    } while (finalAnswer == undefined)
 
     let numberOfOccupiedSeats: number = 0
     finalAnswer.forEach(element => {

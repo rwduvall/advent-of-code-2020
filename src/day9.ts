@@ -8,7 +8,7 @@
 //     return bar.indexOf(1)
 // }
 
-const parse = (data: string): number[] => {
+export const parse = (data: string): number[] => {
     const bar = []
     data.split("\n").forEach(value => {
         bar.push(parseInt(value))
@@ -135,4 +135,29 @@ export const foo = (data: string) => {
 
     console.log("answer: " + anserToThePuzzle)
     return anserToThePuzzle
+}
+
+export const part2 = (data: number[], total: number) => {
+    let answer = []
+
+    let index = 0
+    let incramentalTotal = 0
+    let tries = 0
+    while ((incramentalTotal != total) || tries > data.length) {
+        answer.push(data[index])
+        index += 1
+        incramentalTotal = answer.reduce((accumulator, currentValue) => accumulator + currentValue,
+            0)
+        if (answer.length == data.length) {
+            answer = []
+            tries += 1
+            index = tries
+        }
+    }
+
+    console.log(tries)
+
+    console.log(answer.sort())
+    return answer.reduce((accumulator, currentValue) => accumulator + currentValue,
+        0)
 }

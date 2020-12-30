@@ -1,8 +1,8 @@
 import { seatStatusesConveredToBooleans, changeSeats, countOfOccupiedSeats, parse, loopUntilNoChange } from './day11'
 import { day11Input } from './day11Input'
 
-describe('day 11 part 2', () => {
-    test('simple', () => {
+describe.skip('day 11 part 2', () => {
+    test.skip('simple', () => {
         const i = `.##
 .##
 #..`
@@ -52,18 +52,20 @@ LLL###LLL#
         //         const simpleInput = `L.LL.L
         // LLLLLL`
 
-        const seatToBool = seatStatusesConveredToBooleans(input)
-        const chagne = changeSeats(seatToBool)
-        expect(parse(chagne)).toEqual(oneRunOutput + '\n')
+        // const seatToBool = seatStatusesConveredToBooleans(input)
+        // const chagne = changeSeats(seatToBool)
+        // expect(parse(chagne)).toEqual(oneRunOutput + '\n')
 
-        const exampleNumberOfseats = loopUntilNoChange(input)
-        expect(parse(exampleNumberOfseats.finalAnswer)).toEqual(output + '\n')
+        console.log(loopUntilNoChange(day11Input))
+
+        // const exampleNumberOfseats = loopUntilNoChange(input)
+        // expect(parse(exampleNumberOfseats.finalAnswer)).toEqual(output + '\n')
     })
 
 
 })
 
-describe('day 11 part1', () => {
+describe.skip('day 11 part1', () => {
 
     const inputToSeeOutput = `L.L
 LLL
