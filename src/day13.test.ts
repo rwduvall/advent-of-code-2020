@@ -1,11 +1,11 @@
-import { findbus, mutlipleUntil } from './day13';
+import { findBus, mutlipleUntil } from './day13';
 import { exampleTime, exampleBuses, puzzleBuses, puzzleTime } from './day13Input'
 
 describe('day 13', () => {
     describe('part 1', () => {
         test('example', () => {
-            expect(findbus(exampleBuses, exampleTime)).toEqual(295)
-            expect(findbus(puzzleBuses, puzzleTime)).toEqual(333)
+            expect(findBus(exampleBuses, exampleTime)).toEqual(295)
+            expect(findBus(puzzleBuses, puzzleTime)).toEqual(333)
 
         })
         test('example', () => {
