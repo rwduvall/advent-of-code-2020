@@ -1,5 +1,5 @@
 import { day12Example, day12Input } from './day12Input'
-import { moveShip, turnRight, turnLeft, moveWpRight, moveWPLeft } from './day12'
+import { moveShip, turnRight, turnLeft } from './day12'
 
 describe('day 12', () => {
     describe.skip('part 1', () => {
@@ -54,45 +54,6 @@ F5`
             // wp: -10, 9
             //ship: 30, 53 move -50, 45
             expect(moveShip(input2)).toEqual({ east: 30, north: 53 })
-        })
-
-        // these missed a bug some where
-        test('R90', () => {
-            expect(moveWpRight({ east: 10, north: 4 }, 90)).toEqual({ east: 4, north: -10 })
-            expect(moveWpRight({ east: 4, north: -10 }, 90)).toEqual({ east: -10, north: -4 })
-            expect(moveWpRight({ east: -10, north: -4 }, 90)).toEqual({ east: -4, north: 10 })
-            expect(moveWpRight({ east: -4, north: 10 }, 90)).toEqual({ east: 10, north: 4 })
-        })
-
-        test('R180', () => {
-            expect(moveWpRight({ east: 10, north: 4 }, 180)).toEqual({ east: -10, north: -4 })
-            expect(moveWpRight({ east: 4, north: -10 }, 180)).toEqual({ east: -4, north: 10 })
-            expect(moveWpRight({ east: -10, north: -4 }, 180)).toEqual({ east: 10, north: 4 })
-            expect(moveWpRight({ east: -4, north: 10 }, 180)).toEqual({ east: 4, north: -10 })
-        })
-        test('R270', () => {
-            expect(moveWpRight({ east: 10, north: 4 }, 270)).toEqual({ east: -4, north: 10 })
-            expect(moveWpRight({ east: 4, north: -10 }, 270)).toEqual({ east: 10, north: 4 })
-            expect(moveWpRight({ east: -10, north: -4 }, 270)).toEqual({ east: 4, north: -10 })
-            expect(moveWpRight({ east: -4, north: 10 }, 270)).toEqual({ east: -10, north: -4 })
-        })
-        test('L90', () => {
-            expect(moveWPLeft({ east: 10, north: 4 }, 90)).toEqual({ east: -4, north: 10 })
-            expect(moveWPLeft({ east: 4, north: -10 }, 90)).toEqual({ east: 10, north: 4 })
-            expect(moveWPLeft({ east: -10, north: -4 }, 90)).toEqual({ east: 4, north: -10 })
-            expect(moveWPLeft({ east: -4, north: 10 }, 90)).toEqual({ east: -10, north: -4 })
-        })
-        test('L180', () => {
-            expect(moveWPLeft({ east: 10, north: 4 }, 180)).toEqual({ east: -10, north: -4 })
-            expect(moveWPLeft({ east: 4, north: -10 }, 180)).toEqual({ east: -4, north: -10 })
-            expect(moveWPLeft({ east: -10, north: -4 }, 180)).toEqual({ east: 10, north: 4 })
-            expect(moveWPLeft({ east: -4, north: 10 }, 180)).toEqual({ east: 4, north: -10 })
-        })
-        test('L270', () => {
-            expect(moveWPLeft({ east: 10, north: 4 }, 270)).toEqual({ east: 4, north: -10 })
-            expect(moveWPLeft({ east: 4, north: -10 }, 270)).toEqual({ east: -10, north: -4 })
-            expect(moveWPLeft({ east: -10, north: -4 }, 270)).toEqual({ east: -4, north: 10 })
-            expect(moveWPLeft({ east: -4, north: 10 }, 270)).toEqual({ east: 10, north: 4 })
         })
     })
 })
