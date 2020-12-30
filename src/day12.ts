@@ -9,68 +9,70 @@ const parse = (input: string): any[] => {
 }
 
 export const moveShip = (input: string): ShipPosition => {
-    let shipIsFacing = 'E'
     let shipPosition: ShipPosition = { east: 0, north: 0 }
+    let wpPosition: ShipPosition = { east: 10, north: 1 }
     const actions = parse(input)
     actions.forEach(action => {
-        const resultOfAction = performAction(action, shipPosition, shipIsFacing)
-        // console.log({ shipIsFacing, resultOfAction, action })
+        const resultOfAction = performAction(action, wpPosition, shipPosition)
+        // console.log({ 'shipPosition': resultOfAction.sP, resultOfAction, action })
         shipPosition = resultOfAction.sP
-        shipIsFacing = resultOfAction.shipFacing
+        wpPosition = resultOfAction.waypointPosition
+        // console.log({ shipPosition, wpPosition })
     })
     return shipPosition
 }
 
-const performAction = (action: Action, shipPosition: ShipPosition, shipFacing: string): { sP: ShipPosition, 'shipFacing': string } => {
-    const nAction = { east: shipPosition.east, north: shipPosition.north + action.value }
-    const sAction = { east: shipPosition.east, north: shipPosition.north - action.value }
-    const eAction = { east: shipPosition.east + action.value, north: shipPosition.north }
-    const wAction = { east: shipPosition.east - action.value, north: shipPosition.north }
+const performAction = (action: Action, waypointPosition: ShipPosition, shipPosition: ShipPosition): { sP: ShipPosition, waypointPosition: ShipPosition } => {
+    if (waypointPosition == undefined) {
+        // console.log({ action, shipPosition, waypointPosition })
+    }
+    // console.log(waypointPosition)
+    const nAction = { east: waypointPosition.east, north: waypointPosition.north + action.value }
+    const sAction = { east: waypointPosition.east, north: waypointPosition.north - action.value }
+    const eAction = { east: waypointPosition.east + action.value, north: waypointPosition.north }
+    const wAction = { east: waypointPosition.east - action.value, north: waypointPosition.north }
     if (action.direction == 'F') {
-        if (shipFacing == 'N') {
-            const sP: ShipPosition = nAction
-            return { sP, shipFacing }
-        }
-        if (shipFacing == 'S') {
 
-            const sP: ShipPosition = sAction
-            // console.log({ 'before': shipPosition, 'after': sP, action, 'foo': shipPosition.north - action.value })
-            return { sP, shipFacing }
-        }
-        if (shipFacing == 'E') {
-            const sP: ShipPosition = eAction
-            return { sP, shipFacing }
-        }
-        if (shipFacing == 'W') {
-            const sP: ShipPosition = wAction
-            return { sP, shipFacing }
-        }
+        const amountToMoveE = waypointPosition.east * action.value
+        const amountToMoveN = waypointPosition.north * action.value
+
+        // console.log({
+        //     shipPosition, waypointPosition, amountToMoveE,
+        //     amountToMoveN, "SPeast": shipPosition.east, action,
+        //     'newShipPE': shipPosition.east + amountToMoveE,
+        //     'newShipPN': shipPosition.north + amountToMoveN
+        // })
+        // this shouldn't always add (i think)
+
+        return { sP: { east: shipPosition.east + amountToMoveE, north: shipPosition.north + amountToMoveN }, waypointPosition }
     }
 
     if (action.direction == 'N') {
-        const sP: ShipPosition = nAction
-        return { sP, shipFacing }
+        // console.log({ waypointPosition, shipPosition, action })
+        const wP: ShipPosition = nAction
+        // console.log({ wP })
+        return { sP: shipPosition, waypointPosition: wP }
     }
     if (action.direction == 'S') {
-        const sP: ShipPosition = sAction
-        return { sP, shipFacing }
+        const wP: ShipPosition = sAction
+        return { sP: shipPosition, waypointPosition: wP }
     }
     if (action.direction == 'E') {
-        const sP: ShipPosition = eAction
-        return { sP, shipFacing }
+        const wP: ShipPosition = eAction
+        return { sP: shipPosition, waypointPosition: wP }
     }
     if (action.direction == 'W') {
-        const sP: ShipPosition = wAction
-        return { sP, shipFacing }
+        const wP: ShipPosition = wAction
+        return { sP: shipPosition, waypointPosition: wP }
     }
 
     if (action.direction == 'L') {
-        const newDirection = turnLeft(shipFacing, action.value)
-        return { sP: shipPosition, shipFacing: newDirection }
+        const newDirection = moveWPLeft(waypointPosition, action.value)
+        return { sP: shipPosition, waypointPosition: newDirection }
     }
     if (action.direction == 'R') {
-        const newDirection = turnRight(shipFacing, action.value)
-        return { sP: shipPosition, shipFacing: newDirection }
+        const newDirection = moveWpRight(waypointPosition, action.value)
+        return { sP: shipPosition, waypointPosition: newDirection }
     }
 }
 
@@ -96,6 +98,99 @@ type ShipPosition = {
 //     Right = 'R',
 //     Forward = 'F',
 // }
+
+export const moveWpRight = (wpStartPosition: ShipPosition, degreesToTurn: number): ShipPosition => {
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+
+
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+
+
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+
+
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+}
+
+export const moveWPLeft = (wpStartPosition: ShipPosition, degreesToTurn: number): ShipPosition => {
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+
+
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north }
+    }
+    if ((wpStartPosition.east >= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+
+
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north <= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+
+
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 90) {
+        return { east: wpStartPosition.north * -1, north: wpStartPosition.east }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 180) {
+        return { east: wpStartPosition.east * -1, north: wpStartPosition.north * -1 }
+    }
+    if ((wpStartPosition.east <= 0) && (wpStartPosition.north >= 0) && degreesToTurn == 270) {
+        return { east: wpStartPosition.north, north: wpStartPosition.east * -1 }
+    }
+}
+
+
+
 export const turnRight = (startingDirection: string, degreesToTurn: number): string => {
     const directions = ['N', 'E', 'S', 'W']
     const indexOfStartDirec = directions.indexOf(startingDirection)
