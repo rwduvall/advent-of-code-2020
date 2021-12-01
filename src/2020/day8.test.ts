@@ -665,7 +665,7 @@ nop -375
 acc +38
 jmp +1`
 
-describe('day 8', () => {
+describe.skip('day 8', () => {
     // test('', () => {
     //     expect(unquieLetters('abbc').length).toBe(3)
     // })

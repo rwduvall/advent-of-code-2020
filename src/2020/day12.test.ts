@@ -1,7 +1,7 @@
 import { day12Example, day12Input } from './day12Input'
 import { moveShip, turnRight, turnLeft } from './day12'
 
-describe('day 12', () => {
+describe.skip('day 12', () => {
     describe.skip('part 1', () => {
         test('example', () => {
             const finalPosition = moveShip(day12Example)

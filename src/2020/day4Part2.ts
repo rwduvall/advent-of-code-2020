@@ -12,7 +12,7 @@
 // eyr:2038 hcl:74454a iyr:2023
 // pid:3556412378 byr:2007`
 
-const example = `pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+export const example = `pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
 hcl:#623a2f
 
 eyr:2029 ecl:blu cid:129 byr:1989
@@ -28,8 +28,6 @@ iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719`
 export const parse = (data: string) => {
     let numberOfValid = 0
     const allPassports = data.split("\n\n")
-    // console.log("number of passports " + allPassports.length)
-
 
     const splitPass = allPassports[0].split(" ")
     for (let passport of allPassports) {
@@ -53,12 +51,7 @@ export const parse = (data: string) => {
             numberOfValid += 1
         }
     }
-
-    console.log(numberOfValid)
-
     return numberOfValid
-    console.log("--end--")
-
 }
 
 const validateData = (passports: string[]): boolean => {

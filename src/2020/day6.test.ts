@@ -2192,7 +2192,7 @@ pvuafthmr
 dvpmwcyg`
 
 
-describe('day 6', () => {
+describe.skip('day 6', () => {
     // test('', () => {
     //     expect(unquieLetters('abbc').length).toBe(3)
     // })

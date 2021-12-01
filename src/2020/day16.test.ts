@@ -1,4 +1,4 @@
-import { parseRules, isTicketValid, parseNumber, day16Part1 } from "./day16"
+import { parseRules, isTicketValid, parseNumber, validTickets, doesRuleApply } from "./day16"
 
 const inputRules = `departure location: 44-709 or 728-964
 departure station: 42-259 or 269-974
@@ -261,18 +261,41 @@ const inputTicketNumbers = `539,619,928,309,835,99,521,478,54,340,849,859,376,35
 227,580,210,650,201,225,374,675,362,366,269,402,127,399,808,409,504,688,205,506
 83,862,749,940,760,446,483,468,223,103,378,740,379,132,753,131,329,169,197,136`
 
-test('', () => {
-    const exmapleRules = `class: 1-3 or 5-7
-row: 6-11 or 33-44
-seat: 13-40 or 45-50`
+test.skip('', () => {
+    const exmapleRules = `class: 0-1 or 4-19
+row: 0-5 or 8-19
+seat: 0-13 or 16-19`
 
-    const exmpleNumbers = `7,3,47
-40,4,50
-55,2,20
-38,6,12`
+    const exmpleNumbers = `3,9,18
+15,1,5
+5,14,9
+100,0,2`
+    const rules = parseRules(exmapleRules)
+    const numbers = parseNumber(exmpleNumbers)
+    const validTics = validTickets(numbers, rules)
+    console.log(validTics)
+
+    expect(validTics).toEqual([[3, 9, 18], [15, 1, 5], [5, 14, 9]])
+
+})
+
+test.skip('', () => {
     const rules = parseRules(inputRules)
     const numbers = parseNumber(inputTicketNumbers)
+    const validTics = validTickets(numbers, rules)
+    // console.log(
+    //     validTics
+    // )
+})
 
-    expect(day16Part1(numbers, rules)).toEqual(25972)
-
+test.skip('', () => {
+    console.log(
+        doesRuleApply(5, {
+            ruleName: 'class',
+            lLow: 0,
+            lHigh: 1,
+            hLow: 4,
+            hHigh: 19
+        })
+    )
 })
