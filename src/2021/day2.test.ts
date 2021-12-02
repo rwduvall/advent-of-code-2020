@@ -11,7 +11,10 @@ describe("day 2, part 1", () => {
     expect(part1(parse(exampleInput))).toEqual({ depth: 10, forward: 15 });
   });
   test("final", () => {
-    expect(finalAnswerPart1(part1(parse(input)))).toEqual(150);
+    const finalPostion = part1(parse(input));
+    expect(finalAnswerPart1(finalPostion.forward, finalPostion.depth)).toEqual(
+      1714950
+    );
   });
 });
 
@@ -23,7 +26,10 @@ describe("day 2, part 2", () => {
     });
   });
   test("example", () => {
-    expect(finalAnswerPart2(part2(parse(input)))).toEqual(1281977850);
+    const finalPostion = part2(parse(input));
+    expect(
+      finalAnswerPart2(finalPostion.horizontalPosition, finalPostion.depth)
+    ).toEqual(1281977850);
   });
 });
 
