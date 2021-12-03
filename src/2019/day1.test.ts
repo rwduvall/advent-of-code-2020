@@ -1,4 +1,4 @@
-import { part1, part2 } from "./day1";
+import { part1, part2, p2, p2Final } from "./day1";
 
 describe("day 1, part 1", () => {
   test("example", () => {
@@ -7,8 +7,18 @@ describe("day 1, part 1", () => {
     expect(part1(1969)).toEqual(654);
     expect(part1(100756)).toEqual(33583);
   });
-  test("", () => {
+  test("example full input", () => {
     expect(part2(input)).toEqual(3479429);
+  });
+});
+
+describe("day 1, part 2", () => {
+  test("example", () => {
+    expect(p2(14)).toEqual(2);
+    expect(p2(1969)).toEqual(966);
+  });
+  test("Answer", () => {
+    expect(p2Final(input)).toEqual(0);
   });
 });
 
