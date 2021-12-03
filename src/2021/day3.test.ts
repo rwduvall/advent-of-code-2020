@@ -1,10 +1,13 @@
-import { parse } from "./day3";
+import { oxgyGen, o2Scrub } from "./day3";
 
 test("", () => {
-  expect(parse(input)).toEqual(3516);
+  expect(oxgyGen(input)).toEqual(3311);
+  expect(o2Scrub(input)).toEqual(851);
 });
 
-const exmaple = `00100
+// 110011101111 - 3311
+// 001101010 - 851
+const example = `00100
 11110
 10110
 10111
