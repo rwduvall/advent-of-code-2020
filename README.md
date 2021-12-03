@@ -1,0 +1,3 @@
+- run `nvm use` to make sure you are on the correct version
+- run `npm install` to install dependancies
+- run `npm run test -- --watch` to have tests run as you save changes
