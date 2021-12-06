@@ -152,36 +152,28 @@ export const isBoardWinning = (board: BoardV2) => {
 };
 
 export const findWinningBoard = (nums: number[], boards: BoardV2[]) => {
-  let foundWinningBoard: boolean = false;
   let index = 0;
   let board1: BoardV2;
-  while (!foundWinningBoard) {
+  let numberOfWinningBoards = boards.length;
+  while (numberOfWinningBoards != 0) {
     boards.forEach((board, ind) => {
       board1 = markNumberAsCalled(nums[index], board);
 
       boards.splice(ind, 1, board1);
     });
-    boards.forEach(b => {
+    boards.forEach((b, ind) => {
       if (isBoardWinning(b)) {
-        console.log(b);
-        foundWinningBoard = true;
+        boards.splice(ind, 1);
         board1 = b;
+        numberOfWinningBoards--;
       }
     });
-
     index++;
-    console.log({
-      numLenght: nums.length,
-      index,
-      foundWinningBoard,
-      lastnum: nums[index]
-    });
   }
-  //   console.log(board1);
-  return board1;
+  return { board: board1, lastnum: nums[index - 1] };
 };
 
-export const sum = (board: BoardV2) => {
+export const finalAnswer = (board: BoardV2, numCalled: number) => {
   let total = 0;
   for (const num in board.row1) {
     if (board.row1[num].called == false) {
@@ -208,7 +200,7 @@ export const sum = (board: BoardV2) => {
       total += board.row5[num].num;
     }
   }
-  return total;
+  return total * numCalled;
 };
 
 // workign with it input as an array -------------------------------

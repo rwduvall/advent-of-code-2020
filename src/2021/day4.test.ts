@@ -280,49 +280,48 @@ describe("day 4", () => {
       })
     ).toEqual(true);
   });
-  test("part 1 final", () => {
-    expect(findWinningBoard(numbers, turnInputIntoObj(boards))).toEqual({
+  test("part 2 final", () => {
+    expect(findWinningBoard(numbers, turnInputIntoObj(boards)).board).toEqual({
       row1: {
-        num1: { num: 14, called: true },
-        num2: { num: 21, called: true },
-        num3: { num: 17, called: true },
+        num1: { num: 3, called: false },
+        num2: { num: 15, called: false },
+        num3: { num: 0, called: true },
+        num4: { num: 2, called: true },
+        num5: { num: 22, called: false }
+      },
+      row2: {
+        num1: { num: 9, called: true },
+        num2: { num: 18, called: false },
+        num3: { num: 13, called: true },
+        num4: { num: 17, called: true },
+        num5: { num: 5, called: true }
+      },
+      row3: {
+        num1: { num: 19, called: false },
+        num2: { num: 8, called: false },
+        num3: { num: 7, called: true },
+        num4: { num: 25, called: false },
+        num5: { num: 23, called: true }
+      },
+      row4: {
+        num1: { num: 20, called: false },
+        num2: { num: 11, called: true },
+        num3: { num: 10, called: true },
         num4: { num: 24, called: true },
         num5: { num: 4, called: true }
       },
-      row2: {
-        num1: { num: 10, called: false },
-        num2: { num: 16, called: false },
-        num3: { num: 15, called: false },
-        num4: { num: 9, called: true },
-        num5: { num: 19, called: false }
-      },
-      row3: {
-        num1: { num: 18, called: false },
-        num2: { num: 8, called: false },
-        num3: { num: 23, called: true },
-        num4: { num: 26, called: false },
-        num5: { num: 20, called: false }
-      },
-      row4: {
-        num1: { num: 22, called: false },
-        num2: { num: 11, called: true },
-        num3: { num: 13, called: false },
-        num4: { num: 6, called: false },
-        num5: { num: 5, called: true }
-      },
       row5: {
-        num1: { num: 2, called: true },
-        num2: { num: 0, called: true },
-        num3: { num: 12, called: false },
-        num4: { num: 3, called: false },
-        num5: { num: 7, called: true }
+        num1: { num: 14, called: true },
+        num2: { num: 21, called: true },
+        num3: { num: 16, called: true },
+        num4: { num: 12, called: false },
+        num5: { num: 6, called: false }
       }
     });
   });
   test("sum", () => {
-    expect(
-      sum(findWinningBoard(numInput, turnInputIntoObj(boardInput)))
-    ).toEqual(919);
+    const answer = findWinningBoard(numbers, turnInputIntoObj(boards));
+    expect(sum(answer.board, answer.lastnum)).toEqual(1924);
   });
 });
 
