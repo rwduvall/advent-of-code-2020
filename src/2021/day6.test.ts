@@ -1,4 +1,4 @@
-import { afterDays } from "./day6";
+import { afterDays, useObj, cycle, d } from "./day6";
 
 describe("day 6", () => {
   test("", () => {
@@ -13,9 +13,18 @@ describe("day 6", () => {
   test("Number of fish", () => {
     expect(afterDays(18, exampleInput).length).toEqual(26);
     expect(afterDays(80, exampleInput).length).toEqual(5934);
+    // expect(afterDays(256, exampleInput).length).toEqual(26984457539);
   });
   test("", () => {
     expect(afterDays(80, puzzleInput).length).toEqual(389726);
+  });
+  test("take 2", () => {
+    const parsed = useObj(exampleInput);
+    expect(d(18, parsed)).toEqual(26);
+    expect(d(80, parsed)).toEqual(5934);
+    const puzzleInp = useObj(puzzleInput);
+    expect(d(80, puzzleInp)).toEqual(389726);
+    expect(d(256, puzzleInp)).toEqual(389726);
   });
 });
 const exampleInput = [3, 4, 3, 1, 2];
