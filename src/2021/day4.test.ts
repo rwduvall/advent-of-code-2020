@@ -3,7 +3,7 @@ import {
   turnInputIntoObj,
   isBoardWinning,
   findWinningBoard,
-  sum
+  finalAnswer
 } from "./day4";
 describe("day 4", () => {
   test("markNumberAsCalled", () => {
@@ -321,7 +321,7 @@ describe("day 4", () => {
   });
   test("sum", () => {
     const answer = findWinningBoard(numbers, turnInputIntoObj(boards));
-    expect(sum(answer.board, answer.lastnum)).toEqual(1924);
+    expect(finalAnswer(answer.board, answer.lastnum)).toEqual(1924);
   });
 });
 
